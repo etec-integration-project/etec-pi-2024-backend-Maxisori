@@ -1,0 +1,18 @@
+Soy Maximo Soria y estos son los pasos para levantar mi proyecto 
+
+1.  Crear con mkdir un directrio con el nombr eque quiera para despues movernos a ese directorio con el comando cd *Nombre*.
+
+2. Dentro del directorio ejecutamos: git clone https://github.com/etec-integration-project/etec-pi-2024-backend-Maxisori.git
+
+3. Entrar a MYSQL Workbench, entramos a 'schemas' y creamos la base de datos llamada "wearebrothersdb"
+
+4. En el Query 1 colocamos el siguente código (Refrescamos la base de datos al ser necesario): 
+use mysql;
+
+create user 'root'@'&' identified with mysql_native_password by '1234';
+
+grant all privileges on *.* to 'root'@'&'  
+
+6. Luego corremos e comando: docker compose up --build
+
+
