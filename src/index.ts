@@ -4,6 +4,18 @@ import { mainRouter } from './router/router';
 import { Product } from './persistence/product'
 import { User } from './persistence/user';
 import  cors from 'cors';
+import { config } from 'dotenv';
+
+
+config();
+const database = process.env.DATABASE_NAME
+console.log(database)
+const username = process.env.DATABASE_USERNAME
+console.log(username)
+const password = process.env.DATABASE_PASSWORD
+console.log(password)
+const host = process.env.DATABASE_HOST
+console.log(host)
 
 const app = express();
 const port = 8080;
