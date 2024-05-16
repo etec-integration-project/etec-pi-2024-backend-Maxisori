@@ -15,4 +15,7 @@ grant all privileges on *.* to 'root'@'&'
 
 6. Luego corremos e comando: docker compose up --build
 
+7. Realizar un curl a las siguentes URL para verificar el funcionamiento:
+    * http://localhost:8080
+    * http://localhost 8080/registro
 
