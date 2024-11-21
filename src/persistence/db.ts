@@ -1,56 +1,59 @@
-import { DataSource } from "typeorm"
-import { Product } from "./product"
-import { User } from "./user"
-import "reflect-metadata"
-import { Cart } from "./cart"
-import "dotenv/config" 
+import { DataSource } from "typeorm";
+import { Product } from "./product";
+import { User } from "./user";
+import { Cart } from "./cart";
+import "reflect-metadata";
+import "dotenv/config";
 
-
+// Configuración de la conexión a la base de datos con las variables de entorno correctas
 export const AppDataSource = new DataSource({
-    type: 'mysql',
-    host: process.env.DATABASE_HOST,
+    type: "mysql",
+    host: process.env.DB_HOST, // Definido en el .env
     port: 3306,
-    username: process.env.DATABASE_USERNAME,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME,
+    username: process.env.DB_USER, // Definido en el .env
+    password: process.env.DB_PASSWORD, // Definido en el .env
+    database: process.env.DB_NAME, // Definido en el .env
     synchronize: true,
     logging: true,
-    entities: [Product, User, Cart], 
+    entities: [Product, User, Cart], // Define tus entidades aquí
     subscribers: [],
-    migrations: []
-})
+    migrations: [],
+});
 
+// Verificación de la conexión a la base de datos
+AppDataSource.initialize()
+    .then(() => {
+        console.log("Conexión exitosa a la base de datos");
+    })
+    .catch((error) => {
+        console.error("Error al conectar con la base de datos:", error);
+    });
+
+// Tipos de datos personalizados
 export type Producto = {
-    id: number
-    img: string
-    name: string
-    price: number
-    quantity: number
-}
+    id: number;
+    img: string;
+    name: string;
+    price: number;
+    quantity: number;
+};
 
 export type Usuario = {
-    id: number
-    username: string
-    email: string
-    password: string
-    password2: string
-}
+    id: number;
+    username: string;
+    email: string;
+    password: string;
+    password2: string;
+};
 
-export const db:Array <Producto> = [
-    {
-        id: 1,
-        img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-        name: "Remera Ovesize",
-        price: 3000,
-        quantity: 1,
-    }]
+// Datos mockeados (puedes eliminarlos si no los necesitas)
 
-export const udb:Array <Usuario> = [
+export const udb: Array<Usuario> = [
     {
         id: 1,
         username: "Maci",
         email: "Maci@gmail.com",
         password: "maci123",
-        password2: "maci123"
-    }
-]
+        password2: "maci123",
+    },
+];

@@ -1,23 +1,21 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class Product {
     @PrimaryGeneratedColumn()
-    id!: number
+    id!: number;
 
     @Column()
-    img: string
+    img!: string;
 
-    @Column({
-        length: 100,
-    })
-    name!: string
+    @Column({ length: 100 })
+    name!: string;
 
     @Column()
-    price!: number
+    price!: number;
 
     @Column()
-    quantity!: number
+    quantity!: number;
 
     constructor(img: string, name: string, price: number, quantity: number) {
         this.img = img;
@@ -25,5 +23,4 @@ export class Product {
         this.price = price;
         this.quantity = quantity;
     }
-
 }
