@@ -1,63 +1,84 @@
 import express from 'express';
+import cors from 'cors';
 import { AppDataSource } from './persistence/db';
+import { Product } from './persistence/product';
 import { mainRouter } from './router/router';
-//import { Product } from './persistence/product'
-//import { User } from './persistence/user';
-import  cors from 'cors';
-import { config } from 'dotenv';
-//import * as dotenv from 'dotenv';
 
-
-config();
-const database = process.env.DATABASE_NAME
-console.log(database)
-const username = process.env.DATABASE_USERNAME
-console.log(username)
-const password = process.env.DATABASE_PASSWORD
-console.log(password)
-const host = process.env.DATABASE_HOST
-console.log(host)
-
+// Inicializamos la aplicación de Express
 const app = express();
-const port = 8080;
+const port = 8080; // Puerto donde correrá el servidor
 
-app.use(function(_,res, next){
-    res.header("Acces-Control-Allow-Origin", "https://localhost:3000");
-    res.header("Acces-Control-Allow-Headers", "Origins, X-Requested-Width, Content, Accept");
-    next();
-})
-app.use (cors()); 
-app.use(express.json());
-app.use ('/' , mainRouter);
+// Middleware
+app.use(cors()); // Habilitar CORS
+app.use(express.json()); // Parsear JSON
 
+// Rutas principales
+app.use('/', mainRouter); // Usar el router principal
 
+// Función para agregar productos predeterminados si no existen
+const addDefaultProducts = async () => {
+    const validation_product = AppDataSource.manager.getRepository(Product);
+    const product_exist = await validation_product.find();
 
+    if (product_exist.length === 0) {
+        console.log('No hay productos en la base de datos, agregando productos predeterminados...');
+
+        const products = [
+            new Product(
+                'https://imgs.search.brave.com/AUibPgk1Z25t3UbUVU16XIMVyeyjZFfVYgmDhKU-L3I/rs:fit:500:0:0/g:ce/aHR0cHM6Ly91bmRl/cndhdmVicmFuZC5j/b20vd3AtY29udGVu/dC91cGxvYWRzLzIw/MjMvMDUvRFNDMDc4/OTQtMS5qcGc',
+                'Remera negra Oversize',
+                15000,
+                5
+            ),
+            new Product(
+                'https://imgs.search.brave.com/Mei0Rs5phPofNkohB7JNLD8vyxOB-Jj_a1erHE9qHog/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9odHRw/Mi5tbHN0YXRpYy5j/b20vRF9OUV9OUF84/NTY4NzctTUxBNTIx/MjUxMDc2NjBfMTAy/MDIyLVcud2VicA',
+                'Remera Simple',
+                15000,
+                1
+            ),
+            new Product(
+                'https://imgs.search.brave.com/AUibPgk1Z25t3UbUVU16XIMVyeyjZFfVYgmDhKU-L3I/rs:fit:500:0:0/g:ce/aHR0cHM6Ly91bmRl/cndhdmVicmFuZC5j/b20vd3AtY29udGVu/dC91cGxvYWRzLzIw/MjMvMDUvRFNDMDc4/OTQtMS5qcGc',
+                'Sueter',
+                25000,
+                6
+            ),
+        ];
+
+        try {
+            for (const product of products) {
+                const existingProduct = await validation_product.findOne({
+                    where: { name: product.name },
+                });
+
+                if (!existingProduct) {
+                    await AppDataSource.manager.save(product);
+                    console.log(`Producto guardado: ${product.name}`);
+                } else {
+                    console.log(`Producto ya existe: ${product.name}`);
+                }
+            }
+            console.log('Validación de productos completada.');
+        } catch (error) {
+            console.error('Error al guardar los productos:', error);
+        }
+    } else {
+        console.log('Los productos ya existen en la base de datos.');
+    }
+};
+
+// Inicializar la base de datos y el servidor
 AppDataSource.initialize()
-    .then(async() => {
+    .then(async () => {
         console.log('Base de datos conectada');
 
-//productos
-//        const validation_product = AppDataSource.manager.getRepository(Product)
-//        const product_exist = await validation_product.find()
-//        if (product_exist.length == 0){
-//            const product1 = new Product('https://imgs.search.brave.com/AUibPgk1Z25t3UbUVU16XIMVyeyjZFfVYgmDhKU-L3I/rs:fit:500:0:0/g:ce/aHR0cHM6Ly91bmRl/cndhdmVicmFuZC5j/b20vd3AtY29udGVu/dC91cGxvYWRzLzIw/MjMvMDUvRFNDMDc4/OTQtMS5qcGc',"Remera Oversize negra", 5000, 5);
-//            const product2 = new Product('https://imgs.search.brave.com/Mei0Rs5phPofNkohB7JNLD8vyxOB-Jj_a1erHE9qHog/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9odHRw/Mi5tbHN0YXRpYy5j/b20vRF9OUV9OUF84/NTY4NzctTUxBNTIx/MjUxMDc2NjBfMTAy/MDIyLVcud2VicA', "Remera Oversize blanca", 5000, 1);
-//            AppDataSource.manager.save([product1, product2])
-//            console.log(product_exist)
-//        }
+        // Agregar productos predeterminados si no existen
+        await addDefaultProducts();
 
-//usuario
-//        const validation_user = AppDataSource.manager.getRepository(User)
-//        const user_exist = await validation_user.find()
-//        if (user_exist.length == 0){
-//            const user1 = new User("prueba123" , "prueba@gmail.com", "12345678")
-//            AppDataSource.manager.save([user1])
-//            console.log(user_exist)
-//        }
+        // Iniciar el servidor
         app.listen(port, () => {
-            console.log(`Servidor: http://localhost:${port}`);
+            console.log(`Servidor corriendo en http://localhost:${port}`);
         });
     })
-    .catch(err => {
-        throw err
+    .catch((err) => {
+        console.error('Error al inicializar la base de datos:', err);
     });
