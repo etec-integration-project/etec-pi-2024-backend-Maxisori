@@ -1,0 +1,40 @@
+{
+  "name": "etec-pi-2024-backend-maxisori",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc",
+    "start": "ts-node-dev src/index.ts",
+    "dev": "ts-node-dev src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/etec-integration-project/etec-pi-2024-backend-Maxisori.git"
+  },
+  "author": "Maximo Soria",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/etec-integration-project/etec-pi-2024-backend-Maxisori/issues"
+  },
+  "homepage": "https://github.com/etec-integration-project/etec-pi-2024-backend-Maxisori#readme",
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.12.11",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "etec-pi-2024-backend-maxisori": "file:",
+    "express": "^4.21.1",
+    "mysql2": "^3.11.4",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.20"
+  }
+}

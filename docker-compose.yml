@@ -1,0 +1,47 @@
+services:
+
+  mysql:
+    image: mysql:latest
+    volumes:
+        - /etc/localtime:/etc/localtime:ro
+        - /etc/timezone:/etc/timezone:ro
+    restart: always
+    environment:
+        - MYSQL_ROOT_PASSWORD=1234
+        - MYSQL_DATABASE=brothers
+        - TZ=America/Argentina/Mendoza
+    networks:
+      - express-app
+
+  app:
+    build:
+      context: https://github.com/etec-integration-project/etec-pi-2024-backend-Maxisori.git
+    restart: always
+    environment:
+      - DB_NAME=brothers
+      - DB_USER=root
+      - DB_PASSWORD=1234
+      - DB_HOST=mysql
+    networks:
+      - express-app
+
+  react-app:
+    build:
+      context: https://github.com/etec-integration-project/etec-pi-2024-frontend-Maxisori.git
+    restart: always
+    networks:
+      - express-app
+
+  nginx:
+    build:
+      context: https://raw.githubusercontent.com/etec-integration-project/etec-pi-2024-backend-Maxisori/main/nginx/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - react-app
+      - app
+    networks:
+      - express-app
+
+networks:
+  express-app:
