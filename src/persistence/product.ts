@@ -14,13 +14,9 @@ export class Product {
     @Column()
     price!: number;
 
-    @Column()
-    quantity!: number;
-
-    constructor(img: string, name: string, price: number, quantity: number) {
+    constructor(img: string, name: string, price: number) {
         this.img = img;
         this.name = name;
         this.price = price;
-        this.quantity = quantity;
     }
 }

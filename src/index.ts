@@ -13,7 +13,7 @@ app.use(cors()); // Habilitar CORS
 app.use(express.json()); // Parsear JSON
 
 // Rutas principales
-app.use('/', mainRouter); // Usar el router principal
+app.use('/app/', mainRouter); // Usar el router principal
 
 // Función para agregar productos predeterminados si no existen
 const addDefaultProducts = async () => {
@@ -27,20 +27,17 @@ const addDefaultProducts = async () => {
             new Product(
                 'https://imgs.search.brave.com/AUibPgk1Z25t3UbUVU16XIMVyeyjZFfVYgmDhKU-L3I/rs:fit:500:0:0/g:ce/aHR0cHM6Ly91bmRl/cndhdmVicmFuZC5j/b20vd3AtY29udGVu/dC91cGxvYWRzLzIw/MjMvMDUvRFNDMDc4/OTQtMS5qcGc',
                 'Remera negra Oversize',
-                15000,
-                5
+                15000
             ),
             new Product(
                 'https://imgs.search.brave.com/Mei0Rs5phPofNkohB7JNLD8vyxOB-Jj_a1erHE9qHog/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9odHRw/Mi5tbHN0YXRpYy5j/b20vRF9OUV9OUF84/NTY4NzctTUxBNTIx/MjUxMDc2NjBfMTAy/MDIyLVcud2VicA',
                 'Remera Simple',
-                15000,
-                1
+                15000
             ),
             new Product(
                 'https://imgs.search.brave.com/AUibPgk1Z25t3UbUVU16XIMVyeyjZFfVYgmDhKU-L3I/rs:fit:500:0:0/g:ce/aHR0cHM6Ly91bmRl/cndhdmVicmFuZC5j/b20vd3AtY29udGVu/dC91cGxvYWRzLzIw/MjMvMDUvRFNDMDc4/OTQtMS5qcGc',
                 'Sueter',
-                25000,
-                6
+                25000
             ),
         ];
 

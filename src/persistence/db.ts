@@ -24,10 +24,10 @@ export const AppDataSource = new DataSource({
 });
 
 // Inicializar la conexión a la base de datos
-AppDataSource.initialize()
-    .then(() => {
-        console.log("Conexión exitosa a la base de datos. Tablas creadas automáticamente.");
-    })
-    .catch((error) => {
-        console.error("Error al conectar con la base de datos:", error);
-    });
+// AppDataSource.initialize()
+//     .then(() => {
+//         console.log("Conexión exitosa a la base de datos. Tablas creadas automáticamente.");
+//     })
+//     .catch((error) => {
+//         console.error("Error al conectar con la base de datos:", error);
+//     });
